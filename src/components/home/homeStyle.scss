@@ -1,0 +1,13 @@
+.main{
+    display: flex;
+    flex-direction: row;
+}
+.viewComp{
+    width:-webkit-fill-available;
+}
+.viewCompNav{
+    height: 8vh;
+}
+.viewContents{
+    padding: 25px 25px;
+}

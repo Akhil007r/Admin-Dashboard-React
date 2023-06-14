@@ -1,0 +1,79 @@
+@mixin h1Semi{
+ font-size: 36pt;
+ font-weight:600;
+}
+@mixin h2Semi{
+    font-size: 24pt;
+    font-weight:600;
+}
+@mixin h3Semi{
+    font-size: 18pt;
+    font-weight:600;
+}
+@mixin h4Semi{
+    font-size: 16pt;
+    font-weight:600;
+}
+@mixin h4Med{
+    font-size: 16pt;
+    font-weight:500;
+}
+@mixin h4Reg{
+    font-size: 16pt;
+    font-weight:400;
+}
+@mixin h5Med{
+    font-size: 14pt;
+    font-weight:500;
+}
+@mixin h5Reg{
+    font-size: 14pt;
+    font-weight:400;
+}
+@mixin h6Reg{
+    font-size: 12pt;
+    font-weight:400;
+}
+@mixin h6Med{
+    font-size: 12pt;
+    font-weight:500;
+}
+
+// Number
+
+@mixin bigNum{
+    font-size: 32pt;
+    font-weight:bold;
+}
+@mixin medNum{
+    font-size: 24pt;
+    font-weight:bold;
+}
+@mixin smallNum{
+    font-size: 14pt;
+    font-weight:bold;
+}
+
+// Regular text
+
+@mixin Secondary{
+    font-size: 14pt;
+    font-weight: 400;
+}
+
+@mixin capital{
+    font-size: 14pt;
+    font-weight:400;
+}
+
+// para
+
+@mixin p1{
+    font-size: 10pt;
+    font-weight: 400;
+}
+
+@mixin p3{
+    font-size: 16pt;
+    font-weight: 400;
+}
