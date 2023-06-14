@@ -40,9 +40,11 @@ export default class Customer extends Component {
 
   handleAddButton = (e) => {
     e.preventDefault();
+
     this.setState((prevstate) => ({
       Adddata: !prevstate.Adddata,
     }));
+
   };
 
   // handling  pagination page numbers
@@ -109,6 +111,7 @@ export default class Customer extends Component {
         });
       }, 6000);
     }
+    e.preventDefault();
   };
   // handle update data
   handleUpdate = (e) => {
@@ -186,7 +189,7 @@ export default class Customer extends Component {
 
   // Inserting new data into db
 
-  addData(e) {
+  addData() {
     const data = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -267,20 +270,6 @@ export default class Customer extends Component {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log(res);
-        // if(res.status===200){
-        //   console.log(res.status===200);
-        //   this.setState({
-        //     firstName: "",
-        //     lastName: "",
-        //     email: "",
-        //     phone:"",
-        //     password: "",
-        //     editData:false,
-        //     Adddata:false,
-
-        //   })
-        // }
         this.getData();
       })
       .catch((e) => {

@@ -107,6 +107,7 @@ export default class Product extends Component {
         });
       }, 6000);
     }
+    e.preventDefault();
   };
 
   // handle update data

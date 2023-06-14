@@ -949,6 +949,14 @@
       "phone": "98765432100",
       "password": "abcde",
       "id": 21
+    },
+    {
+      "firstName": "D",
+      "lastName": "J",
+      "email": "DJ@gmail.com",
+      "phone": "876543210",
+      "password": "Dj123",
+      "id": 22
     }
   ],
   "products": [

@@ -107,6 +107,7 @@ export default class Category extends Component {
         });
       }, 6000);
     }
+    e.preventDefault();
   };
 
   // Inserting new data into db
