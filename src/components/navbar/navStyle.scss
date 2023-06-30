@@ -71,6 +71,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                z-index: 5;
                 p{
                     display: flex;
                     justify-items: center;
@@ -86,4 +87,162 @@
             .Loghidden{
                 display: none;
             }
+}
+
+
+
+@media(max-width:375px)and (min-width:320px){
+    .nav{
+        height: 60%;
+        .search{
+            display: flex;
+            h2{
+                font-size: 10px;
+            }
+        }
+                .navDetailContainer{
+                    gap: 0.9px;
+                    width:50%;
+                    img{
+                        width:15px;
+                        height: 15px;
+                    }
+                    div{
+                        font-size: 5pt;
+                    }
+                }
+                .Logout{
+                    right:0px;
+                    top:35px;
+                    width:45px;
+                    height: 25px;
+                    p{
+                        font-size: 7pt;
+                    }
+                    &:hover{
+                        color:  #236dd5;
+                        cursor: pointer;
+                    }
+                }
+                .Loghidden{
+                    display: none;
+                }
+    }
+}
+
+@media(max-width:425px)and (min-width:375px){
+    .nav{
+        height: 60%;
+        .search{
+            display: flex;
+            h2{
+                font-size: 10px;
+            }
+        }
+                .navDetailContainer{
+                    gap: 0.9px;
+                    width:50%;
+                    img{
+                        width:15px;
+                        height: 15px;
+                    }
+                    div{
+                        font-size: 5pt;
+                    }
+                }
+                .Logout{
+                    right:0px;
+                    top:35px;
+                    width:45px;
+                    height: 25px;
+                    p{
+                        font-size: 7pt;
+                    }
+                    &:hover{
+                        color:  #236dd5;
+                        cursor: pointer;
+                    }
+                }
+                .Loghidden{
+                    display: none;
+                }
+    }
+}
+@media(max-width:768px),(width:912px),(width:920px),(width:820px)  and (min-width:425px){
+    .nav{
+        height: 50%;
+        width: 100%;
+        .search{
+            display: flex;
+            h2{
+                font-size: 10px;
+            }
+        }
+                .navDetailContainer{
+                    gap: 0.9px;
+                    width:50%;
+                    img{
+                        width:15px;
+                        height: 15px;
+                    }
+                    div{
+                        font-size: 5pt;
+                    }
+                }
+                .Logout{
+                    right:0px;
+                    top:35px;
+                    width:45px;
+                    height: 25px;
+                    p{
+                        font-size: 7pt;
+                    }
+                    &:hover{
+                        color:  #236dd5;
+                        cursor: pointer;
+                    }
+                }
+                .Loghidden{
+                    display: none;
+                }
+    }
+}
+@media (max-width:280px)and (min-width:310px){
+    .nav{
+        height: 60%;
+        width: 100%;
+        .search{
+            display: flex;
+            h2{
+                font-size: 10px;
+            }
+        }
+                .navDetailContainer{
+                    gap: 0.9px;
+                    width:50%;
+                    img{
+                        width:15px;
+                        height: 15px;
+                    }
+                    div{
+                        font-size: 5pt;
+                    }
+                }
+                .Logout{
+                    right:0px;
+                    top:35px;
+                    width:45px;
+                    height: 25px;
+                    p{
+                        font-size: 7pt;
+                    }
+                    &:hover{
+                        color:  #236dd5;
+                        cursor: pointer;
+                    }
+                }
+                .Loghidden{
+                    display: none;
+                }
+    }
 }

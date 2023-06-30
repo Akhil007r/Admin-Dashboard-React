@@ -18,6 +18,17 @@ export default class Product extends Component {
       Adddata: false,
       handleToast: false,
       editData: false,
+      handleErrors:{
+        dataEntry:false,
+        userFound:true,
+      },
+      pagination:{
+        pageNumberLimit:5,
+        maxPageLimit:5,
+        minPageLimit:0,
+      },
+      searchItem:"",
+      slicedData:[]
     };
     this.getData.bind(this);
     this.handleClick.bind(this);
@@ -40,6 +51,9 @@ export default class Product extends Component {
     e.preventDefault();
     this.setState((prevstate) => ({
       Adddata: !prevstate.Adddata,
+      handleErrors:{
+        dataEntry:false
+      }
     }));
   };
 
@@ -55,6 +69,9 @@ export default class Product extends Component {
     e.preventDefault();
     this.setState((prevstate) => ({
       editData: !prevstate.editData,
+      handleErrors:{
+        dataEntry:false
+      }
     }));
   };
   // handle Edit
@@ -86,15 +103,10 @@ export default class Product extends Component {
     const stock = this.state.stock;
     const brand = this.state.brand;
     const category = this.state.category;
-    if (
-      title === "" ||
-      price === "" ||
-      stock === "" ||
-      brand === "" ||
-      category === ""
-    ) {
+    if (title === "" || price === "" || stock === "" ||brand === "" ||category === "")
+     {
       if (this.state.Adddata === true) {
-        alert("Enter All the Details");
+        this.setState({handleErrors:{dataEntry:true}})
       }
     } else {
       this.addData();
@@ -119,38 +131,39 @@ export default class Product extends Component {
     const stock = this.state.stock;
     const brand = this.state.brand;
     const category = this.state.category;
-    if (
-      Title === "" ||
-      Price === "" ||
-      stock === "" ||
-      brand === "" ||
-      category === ""
-    ) {
+    if ( Title === "" || Price === "" || stock === "" || brand === "" || category === "")
+     {
       if (this.state.editData === true) {
-        alert("Details cannot be empty");
+        this.setState({handleErrors:{dataEntry:true}})
       }
     } else {
       this.UpdateData(id);
-      this.setState({
-        handleToast: true,
-      });
+      this.setState({ handleToast: true,});
       setTimeout(() => {
-        this.setState({
-          handleToast: false,
-        });
+        this.setState({ handleToast: false,});
       }, 5000);
     }
     e.preventDefault();
   };
 
   //  Deleting entry from db
-  handleDelete = (id) => {
+  handleDelete = (id,currentposts) => {
+    if(currentposts.length === 1 || "1"){
+      this.setState((prev)=>(
+        {
+          currentPage:prev.currentPage - 1
+        }))
+    }
     fetch("http://localhost:4001/products/" + id, {
       method: "delete",
     })
       .then((res) => {
-        console.log(res);
         this.getData();
+        setTimeout(() => {
+          this.setState({
+            handleToast: false,
+          });
+        }, 5000);
       })
       .catch((e) => {
         console.log(e.msg);
@@ -160,7 +173,7 @@ export default class Product extends Component {
 
   // Binding Functionalities
 
-  handle = {
+  handleFunctions = {
     handleClick: this.handleClick.bind(this),
     handleEdit: this.handleEdit.bind(this),
     handleChange: this.handleChange.bind(this),
@@ -202,12 +215,8 @@ export default class Product extends Component {
       .then((res) => {
         if (res.status === 201) {
           this.setState({
-            title: "",
-            price: "",
-            stock: "",
-            brand: "",
-            category: "",
-            Adddata: false,
+            title: "", price: "", stock: "",
+            brand: "", category: "", Adddata: false,
           });
         }
         this.getData();
@@ -233,7 +242,6 @@ export default class Product extends Component {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           console.log(res.status === 200);
           this.setState({
@@ -253,6 +261,40 @@ export default class Product extends Component {
       });
   }
 
+   // paginate
+   handleNextBtn=()=>{
+    this.setState((prev)=>({
+      currentPage: JSON.parse(prev.currentPage) + 1
+    }))
+    console.log(this.state.pagination.pageNumberLimit)
+
+    if(this.state.currentPage + 1 > this.state.pagination.maxPageLimit){
+      this.setState((prev)=>({
+        pagination:{
+          pageNumberLimit:prev.pagination.pageNumberLimit,
+          maxPageLimit: prev.pagination.maxPageLimit + this.state.pagination.pageNumberLimit,
+          minPageLimit: prev.pagination.minPageLimit + this.state.pagination.pageNumberLimit
+        }
+      }))
+    }
+   } 
+
+   handlePrevBtn=()=>{
+    if(this.state.currentPage !== 0){
+      this.setState((prev)=>({
+      currentPage: JSON.parse(prev.currentPage) - 1
+    }))}
+    if((this.state.currentPage - 1) % this.state.pagination.pageNumberLimit === 0){
+      this.setState((prev)=>({
+        pagination:{
+          pageNumberLimit:prev.pagination.pageNumberLimit,
+          maxPageLimit: prev.pagination.maxPageLimit - this.state.pagination.pageNumberLimit,
+          minPageLimit: prev.pagination.minPageLimit - this.state.pagination.pageNumberLimit
+        }
+      }))
+    }
+   } 
+
 
   // mounting the data when before rendering into page
 
@@ -263,9 +305,22 @@ export default class Product extends Component {
   // rendering Customer components
 
   render() {
+    const lastPostIndex = this.state.currentPage * this.state.postPerPage;
+    const firstPostIndex = lastPostIndex - this.state.postPerPage;
+    const currentposts = this.state.userdata.slice(firstPostIndex, lastPostIndex);
+    const totalPosts = this.state.userdata.length;
     return (
       <>
-        <ProductComp {...this.state} {...this.handle} />
+        <ProductComp 
+        {...this.state}
+         {...this.handleFunctions}
+         lastPostIndex={lastPostIndex}
+         firstPostIndex={firstPostIndex}
+         currentposts={currentposts}
+         totalPosts={totalPosts}
+         handlePrevBtn={this.handlePrevBtn}
+         handleNextBtn={this.handleNextBtn}
+          />
       </>
     );
   }

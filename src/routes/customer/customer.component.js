@@ -7,6 +7,8 @@ import "./customerStyles.scss";
 import AddSvg from "../../components/images/Add.svg";
 import Pagination from "../../components/Pagination";
 import Toast from "../../components/Toast";
+import searchIco from "../../components/images/search.png";
+
 export default class CustomerComp extends React.Component {
   render() {
     const {
@@ -31,12 +33,13 @@ export default class CustomerComp extends React.Component {
       password,
       handleUpdate,
       handleDelete,
-
+      handleErrors,
+      totalPosts,
+      currentposts,
+      searchItem,
+      handleNextBtn,
+      handlePrevBtn
     } = this.props;
-    const lastPostIndex = currentPage * postPerPage;
-    const firstPostIndex = lastPostIndex - postPerPage;
-    const currentposts = userdata.slice(firstPostIndex, lastPostIndex);
-    const totalPosts = userdata.length;
     return (
       <div className="customerMain">
         <>{handleToast ? <Toast /> : ""}</>
@@ -44,6 +47,15 @@ export default class CustomerComp extends React.Component {
           <div>
             <img src={customer} alt="customer" />
             <h3>Customer Details</h3>
+          </div>
+          <div className="searchContainer">
+            <input
+              type="search"
+              className="navSearch"
+              name="searchItem"
+              onChange={handleChange}
+            />
+            {searchItem===""&&<img src={searchIco} alt="search" aria-hidden="true" />}
           </div>
           <div>
             <button
@@ -89,6 +101,7 @@ export default class CustomerComp extends React.Component {
                   <label>Phone</label>
                   <input type="number" name="phone" onChange={handleChange} />
                 </div>
+               {handleErrors.dataEntry && <p className="error">Enter all  Details ...!</p>}
                 <div className="addUserForm-Details">
                   <button className="formsave" type="submit">
                     Save
@@ -127,7 +140,31 @@ export default class CustomerComp extends React.Component {
               <LoadingScreen />
             ) : (
               <>
-                {currentposts.map((item) => {
+                {currentposts
+                 .filter((item) => {
+                  if (searchItem === "") {
+                    return item;
+                  } else if (
+                    JSON.stringify(item.id) === searchItem ||
+                    item.firstName
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase()) ||
+                    item.lastName
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase()) ||
+                    item.email
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase()) ||
+                    item.phone
+                      .includes(searchItem)
+                  ) {
+                    return item;
+                  }
+                  else{
+                    return false
+                  }
+                })
+                .map((item) => {
                   return (
                     <div className="customerDetailTable" key={item.id}>
                       <div className="custdetailId">
@@ -159,7 +196,7 @@ export default class CustomerComp extends React.Component {
                           className="custButton custDeleteBtn"
                           value={item.id}
                           onClick={() =>{ 
-                            handleDelete(item.id)
+                            handleDelete(item.id,currentposts)
                           }}
                         >
                           <img
@@ -172,13 +209,7 @@ export default class CustomerComp extends React.Component {
                     </div>
                   );
                 })}
-                <Pagination
-                  userdata={userdata}
-                  currentPage={currentPage}
-                  postPerPage={postPerPage}
-                  handleClick={handleClick}
-                  totalPosts={totalPosts}
-                />
+  
               </>
             )}
             {/* <div className={showDelete ? "hidden":"deleteWarning"}>
@@ -260,6 +291,7 @@ export default class CustomerComp extends React.Component {
                   value={phone}
                 />
               </div>
+              {handleErrors.dataEntry && <p className="error">Enter all  Details ...!</p>}
               <div className="edituserForm-Details">
                 <button className="formsave" type="submit">
                   Save
@@ -268,12 +300,24 @@ export default class CustomerComp extends React.Component {
                   Exit
                 </button>
               </div>
+
             </div>
           </form>
         </div>
+        <Pagination
+                  userdata={userdata}
+                  currentPage={currentPage}
+                  postPerPage={postPerPage}
+                  handleClick={handleClick}
+                  totalPosts={totalPosts}
+                  handlePrevBtn={handlePrevBtn}
+                  handleNextBtn={handleNextBtn}
+                  maxPageLimit={this.props.pagination.maxPageLimit}
+                  minPageLimit={this.props.pagination.minPageLimit}
+                />
       </div>
     );
   }
 }
 
-// For reference
+

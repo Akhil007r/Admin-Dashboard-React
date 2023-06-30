@@ -6,9 +6,44 @@ export default class EntryPoint extends Component {
         username: "",
         password: "",
         auth: false,
+        LogError:false,
+        DetailErr:{
+          login:false,
+          pass:false,
+        }
       };
-      handleauth = () => {
+      handleauth = (e) => {
         const { username, password } = this.state;
+        if(username === ""){
+          console.log("user")
+          this.setState((prev)=>({
+            DetailErr:{
+              login:true,
+              pass:prev.DetailErr.pass,
+            }
+          }))
+          e.preventDefault();
+
+        }
+       else if(password===""){
+        console.log("true")
+          this.setState((prev)=>({
+            DetailErr:{
+              login:prev.DetailErr.login,
+              pass:true,
+            }
+          }))
+          e.preventDefault();
+
+        }
+      else{
+        if(username !=="" && password !==""){
+          this.setState( {
+            DetailErr:{
+            login:false,
+            pass:false,
+          }}
+          )
         fetch("http://localhost:4001/profile")
           .then((res) => res.json())
           .then((res) =>
@@ -21,15 +56,22 @@ export default class EntryPoint extends Component {
                   return true;
                 }
               }
-              alert("Enter Correct Credentials");
               this.setState({
-                auth: false,
+                auth: false, 
+                LogError:true,
               });
+              setTimeout(() => {
+                this.setState({
+                  LogError:false,
+                });
+              }, 2000);
               return false;
             })
           );
+        }
+          e.preventDefault();
       };
-    
+      }
       handleChange = (e) => {
         const { name, value } = e.target;
         this.setState({
@@ -48,13 +90,13 @@ export default class EntryPoint extends Component {
       };
       render() {
         return (
-          <div>
+          <>
             {this.state.auth ? (
               <Home {...this.handle} />
             ) : (
               <Login {...this.state} {...this.handle} />
             )}
-          </div>
+          </>
         );
       }
 }

@@ -9,5 +9,23 @@
     height: 8vh;
 }
 .viewContents{
+    height:80%;
     padding: 25px 25px;
+}
+
+@media (max-width:320px){
+    .main{
+        display: flex;
+        flex-direction: row;
+        width:100%;
+        height: 100vh;
+    }
+    .viewComp{
+        width:100%;
+    }
+    .viewContents{
+        padding: 0;
+        // position: relative;
+        // top:100px;
+    }
 }

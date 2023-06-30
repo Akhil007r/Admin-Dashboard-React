@@ -5,20 +5,49 @@
     display: flex;
     position: relative;
     flex-direction: column;
-    height: 60%;
+    height: 100% !important;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     letter-spacing: 0.2px;
+    justify-content: space-evenly;
     .customerHead{
         display: flex;
         align-items: center;
-        padding: 15px;
+        padding: 10px;
         justify-content: space-between;
 
         img{
             width:80px;
             border-radius: 50px;
+        }
+        .searchContainer{
+            width:25%;
+            position: relative;
+            float: left;
+            left:0px;
+            .navSearch{
+                border: none;
+                width:auto;
+                height: 30px;
+                border-radius: 25px;
+                background-color: $card;
+                text-align: left;
+                outline: none;
+                font-family: inherit;
+                padding: 2px 10px 2px 30px;
+            }&:focus{
+                outline: 1px solid #59a749;
+            }
+            img{
+                width: 18px;
+                height: 18px;
+                position: absolute;
+                top: 8px;
+                left:10px;
+                }&::after{
+                    display: none;
+                }
         }
         .CustAddUserBtn{
             display: flex;
@@ -46,10 +75,10 @@
     }
     .customerTable{
         position: relative;
-        top:15%;
+        top:0%;
         left:5%;
         width:90%;
-        height:50% !important;
+        height:100% !important;
         border-radius: 5px;
         box-shadow: 0px 2px 5px $icon;
         font-family: inherit;
@@ -141,32 +170,32 @@
             border: 1px solid $icon;
             border-radius: 5px;
             height: 100% !important;
-            .tableHead{
+            .producttableHead{
                 @include h6Med;
                 display: flex;
                 padding: 10px;
                 border-radius: 14px;
            
-                .tableHeadId{
+                .producttableHeadId{
                     width:5%;
                     text-align: center;
                 }
-                .tableHeadName{
+                .producttableHeadName{
                     width:25%;
                 }
-                .tableHeadEmail{
+                .producttableHeadEmail{
                     width:25%;
                     // text-align: center;
                 }
-                .tableHeadPassword{
+                .producttableHeadPassword{
                     width: 20%;
                     text-align: left;
                 }
-                .tableHeadNumber{
+                .producttableHeadNumber{
                     width: 20%;
                     text-align: left;
                 }
-                .tableHeadEdit{
+                .producttableHeadEdit{
                     width:6%;
                     font-size: 14px
                 }
@@ -411,5 +440,933 @@
     }
 }
 
+@media (max-width:375px) and (min-width:280px){
+    .customerMain{
 
+        height: 100%;
+        width:90%;
+        background-color: #fff;
+        border-radius: 5px;
+        letter-spacing: 0.2px;
+        padding: 5px;
+        .customerHead{
+            margin-top: 10px;
+            padding: 5px;
+            h3{
+                font-size: 4pt;
+            }
+            img{
+                width:25px;
+                border-radius: 25px;
+            }
+            .searchContainer{
+                width:25%;
+                position: relative;
+                float: left;
+                left:-20px;
+                .navSearch{
+                    border: none;
+                    width:100%;
+                    height: 25px;
+                    border-radius: 25px;
+                    background-color: $card;
+                    text-align: right;
+                    outline: none;
+                    font-size: 8px;
+                    font-family: inherit;
+                    padding: 2px 10px 2px 20px;
+                }
+                img{
+                    width: 10px;
+                    height: 10px;
+                    position: absolute;
+                    top: 8px;
+                    left:10px;
+                    }
+            }
+            .CustAddUserBtn{
+                gap:8.2px;
+                padding: 2px;
+                width:40px;
+                height: 20px;
+                font-size: 6pt;
+                .CustAddicon{
+                    width: 8px;
+                    height: 8px;
+                    margin-left: 1px;
+                }
+            }
+        }
+        .customerTable{
+            top:0%;
+            left:5%;
+            width:90%;
+            height:70% !important ;
+      
+    
+            .Adduser{
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                width: 100%;
+                height: 100% !important;
+                justify-content: center;
+                background-color:#fff;
+                .addUserForm{
+                    width:90%;
+                    padding: 25px;
+                    font-family: inherit;
+                }
+                .addUserForm-Container{
+                    text-align: left;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    height: 100%;
+                    justify-content: space-evenly;
+    
+                    p{
+                        font-size: 5pt;
+                      text-align: center;
+                    }
+                
+                    .addUserForm-Details{
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+    
+                      label{
+                        font-size: 6pt;
+                        width:20%;
+                      }
+                      input{
+                        font-family: inherit;
+                        width: 40%;
+                        height: 7px;
+                        font-size: 6pt;
+                        border-radius: 2px;
+                      }
+                      input::-webkit-outer-spin-button,
+                      input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                      }
+                      button{
+                        width: 20%;
+                        height: 15px;
+                        margin: 10px;
+                        font-size: 4pt;
+                      }
+                      .formsave{
+                        border-radius: 2px;
+                      }
+                      .formexit{
+                        border-radius: 2px;
+                      }
+                    }
+                }
+            }
+            .custTabel{
+                border: 1px solid $icon;
+                border-radius: 5px;
+                height: 100% !important ;
 
+                .producttableHead{
+                    font-size: 4pt;
+                    display: flex;
+                    padding: 3px;
+                    border-radius: 14px;
+               
+                    .producttableHeadId{
+                        width:5%;
+                        text-align: center;
+                    }
+                    .producttableHeadName{
+                        width:19%;
+                    }
+                    .producttableHeadEmail{
+                        width:14%;
+                    }
+                    .producttableHeadPassword{
+                        width: 12%;
+                        text-align: left;
+                    }
+                    .producttableHeadNumber{
+                        width: 19%;
+                        text-align: left;
+                    }
+                    .producttableHeadEdit{
+                        width:10%;
+                        font-size:4pt;
+                        text-align: left;
+
+                    }
+                }
+                .ProductDetailTable{
+                    font-size: 4pt;
+                    display: flex;
+                    padding: 10px;
+                    letter-spacing: 0.1px;
+                    p{
+                        padding:0 2px;
+                    }
+                    .productId{
+                        width:5%;
+                        text-align: left;
+                    }
+                    .productdetailName{
+                        width:19%;
+                        text-align: left;
+                    }
+                    .productdetailEmail{
+                        width:15%;
+                       font-size: 4pt;
+                    }
+                    .productdetailPassword{
+                        width: 13%;
+                        word-wrap: break-word;
+                    }
+                    .productdetailNumber{
+                        width: 20%;
+                    }
+                    .productdetailbutton{
+                        width: 10%;
+                        .productButton{
+                            width: 15px;
+                            height:10px;
+                            padding: 0px;
+                            .productDelete{
+                                width:3px;
+                                height: 3px;
+                            }
+                
+                            .productEdit{
+                                width: 4px;
+                                height: 4px;
+                            }
+                        }
+                    
+                    }                
+                }
+            }
+        }
+    
+        .productEditBtn{
+            border-radius: 2px 0 0 2px;
+            background-color: rgba(255, 166, 0, 0.809);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .productDeleteBtn{
+            border-radius: 0 2px 2px 0;
+            background-color: rgba(255, 0, 0, 0.911);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .PaginationButtons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:5px;
+            gap: 5px;
+            .pgno{
+                border: none;
+                border-radius: 2px;
+                background-color: $icon;
+                color: #fff;
+                font-size: 5px;
+                padding: 2px;
+            }
+        }
+        .edituser{
+            display: flex;
+            position: absolute;
+            top:0;
+            background-color: #fff;
+            left: 0;
+            display: flex;
+            width: 100%;
+            height: 100% !important;
+            justify-content: center;
+            background-color:#fff;
+            .edituserForm{
+                width:100%;
+                padding: 15px;
+                font-family: inherit;
+            }
+            .edituserForm-Container{
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                height: 100%;
+                justify-content: space-evenly;
+    
+                p{
+                    @include p3;
+                    font-size: 7pt;
+                  text-align: center;
+                }
+    
+                .edituserForm-Details{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+    
+                  label{
+                    width:20%;
+                    font-size: 6pt;
+                  }
+                  input{
+                    font-family: inherit;
+                    width: 40%;
+                    height: 10px;
+                    border-radius: 2px;
+                    font-size: 6pt;
+                  }
+                  input::-webkit-outer-spin-button,
+                  input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                  }
+                  button{
+                    width: 50px;
+                    height: 15px;
+                    margin: 10px;
+                    font-size: 6pt;
+                  }
+                }
+            }
+        }
+        .hidden{
+            display: none;
+        }
+        
+    }
+}
+
+@media (min-width:375px) and (max-width:425px){
+    .customerMain{
+
+        height: 100%;
+        width:90%;
+        background-color: #fff;
+        border-radius: 5px;
+        letter-spacing: 0.2px;
+        padding: 5px;
+        .customerHead{
+            margin-top: 5px;
+            padding: 5px;
+            h3{
+                font-size: 5pt;
+            }
+            img{
+                width:25px;
+                border-radius: 25px;
+            }
+            .searchContainer{
+                width:25%;
+                position: relative;
+                float: left;
+                left:-20px;
+                .navSearch{
+                    border: none;
+                    width:100%;
+                    height: 25px;
+                    border-radius: 25px;
+                    background-color: $card;
+                    text-align: right;
+                    outline: none;
+                    font-size: 8px;
+                    font-family: inherit;
+                    padding: 2px 10px 2px 20px;
+                }
+                img{
+                    width: 10px;
+                    height: 10px;
+                    position: absolute;
+                    top: 8px;
+                    left:10px;
+                    }
+            }
+            .CustAddUserBtn{
+                gap:8.2px;
+                padding: 2px;
+                width:40px;
+                height: 20px;
+                font-size: 6pt;
+                .CustAddicon{
+                    width: 8px;
+                    height: 8px;
+                    margin-left: 1px;
+                }
+            }
+        }
+        .customerTable{
+            top:0%;
+            left:5%;
+            width:90%;
+            height:77% !important ;
+      
+    
+            .Adduser{
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                width: 100%;
+                height: 100% !important;
+                justify-content: center;
+                background-color:#fff;
+                .addUserForm{
+                    width:90%;
+                    padding: 25px;
+                    font-family: inherit;
+                }
+                .addUserForm-Container{
+                    text-align: left;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    height: 100%;
+                    justify-content: space-evenly;
+    
+                    p{
+                        font-size: 10pt;
+                      text-align: center;
+                    }
+                
+                    .addUserForm-Details{
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+    
+                      label{
+                        font-size: 7pt;
+                        width:20%;
+                      }
+                      input{
+                        font-family: inherit;
+                        width: 40%;
+                        height: 7px;
+                        font-size: 7pt;
+                        border-radius: 2px;
+                      }
+                      input::-webkit-outer-spin-button,
+                      input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                      }
+                      button{
+                        width: 20%;
+                        height: 15px;
+                        margin: 10px;
+                        font-size: 4pt;
+                      }
+                      .formsave{
+                        border-radius: 2px;
+                      }
+                      .formexit{
+                        border-radius: 2px;
+                      }
+                    }
+                }
+            }
+            .custTabel{
+                border: 1px solid $icon;
+                border-radius: 5px;
+                height: 100% !important ;
+
+                .producttableHead{
+                    font-size: 6pt;
+                    display: flex;
+                    padding: 3px;
+                    border-radius: 14px;
+               
+                    .producttableHeadId{
+                        width:5%;
+                        text-align: center;
+                    }
+                    .producttableHeadName{
+                        width:19%;
+                    }
+                    .producttableHeadEmail{
+                        width:14%;
+                    }
+                    .producttableHeadPassword{
+                        width: 12%;
+                        text-align: left;
+                    }
+                    .producttableHeadNumber{
+                        width: 19%;
+                        text-align: left;
+                    }
+                    .producttableHeadEdit{
+                        width:10%;
+                        font-size:6pt;
+                        text-align: left;
+
+                    }
+                }
+                .ProductDetailTable{
+                    font-size: 5pt;
+                    display: flex;
+                    padding: 7px;
+                    letter-spacing: 0.1px;
+                    p{
+                        padding:0 2px;
+                    }
+                    .productId{
+                        width:5%;
+                        text-align: left;
+                    }
+                    .productdetailName{
+                        width:19%;
+                        text-align: left;
+                        word-wrap: break-word;
+                    }
+                    .productdetailEmail{
+                        width:15%;
+                       font-size: 5pt;
+                    }
+                    .productdetailPassword{
+                        width: 13%;
+                    }
+                    .productdetailNumber{
+                        width: 20%;
+                    }
+                    .productdetailbutton{
+                        margin-left: 5px;
+                        width: 10%;
+                        .productButton{
+                            width: 15px;
+                            height:10px;
+                            padding: 0px;
+                            .productDelete{
+                                width:4px;
+                                height: 4px;
+                            }
+                
+                            .productEdit{
+                                width: 4px;
+                                height: 4px;
+                            }
+                        }
+                    
+                    }                
+                }
+            }
+        }
+    
+        .productEditBtn{
+            border-radius: 2px 0 0 2px;
+            background-color: rgba(255, 166, 0, 0.809);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .productDeleteBtn{
+            border-radius: 0 2px 2px 0;
+            background-color: rgba(255, 0, 0, 0.911);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .PaginationButtons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:5px;
+            gap: 5px;
+            .pgno{
+                border: none;
+                border-radius: 2px;
+                background-color: $icon;
+                color: #fff;
+                font-size: 5px;
+                padding: 2px;
+            }
+        }
+        .edituser{
+            display: flex;
+            position: absolute;
+            top:0;
+            background-color: #fff;
+            left: 0;
+            display: flex;
+            width: 100%;
+            height: 100% !important;
+            justify-content: center;
+            background-color:#fff;
+            .edituserForm{
+                width:100%;
+                padding: 15px;
+                font-family: inherit;
+            }
+            .edituserForm-Container{
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                height: 100%;
+                justify-content: space-evenly;
+    
+                p{
+                    @include p3;
+                    font-size: 7pt;
+                  text-align: center;
+                }
+    
+                .edituserForm-Details{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+    
+                  label{
+                    width:20%;
+                    font-size: 6pt;
+                  }
+                  input{
+                    font-family: inherit;
+                    width: 40%;
+                    height: 10px;
+                    border-radius: 2px;
+                    font-size: 6pt;
+                  }
+                  input::-webkit-outer-spin-button,
+                  input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                  }
+                  button{
+                    width: 50px;
+                    height: 15px;
+                    margin: 10px;
+                    font-size: 6pt;
+                  }
+                }
+            }
+        }
+        .hidden{
+            display: none;
+        }
+        
+    }
+}
+
+@media (min-width:425px) and (max-width:768px),(width:540px),(width:820px),(width:920px),(width:912px),(width:1024px){
+    .customerMain{
+
+        height: 90% !important;
+        width:90%;
+        background-color: #fff;
+        border-radius: 5px;
+        letter-spacing: 0.2px;
+        padding: 15px;
+        .customerHead{
+            margin-top: 10px;
+            padding: 5px;
+            h3{
+                font-size: 10pt;
+            }
+            img{
+                width:25px;
+                border-radius: 25px;
+            }
+            .searchContainer{
+                width:30%;
+                position: relative;
+                float: left;
+                left:-20px;
+                .navSearch{
+                    border: none;
+                    width:100%;
+                    height: 25px;
+                    border-radius: 25px;
+                    background-color: $card;
+                    text-align: right;
+                    outline: none;
+                    font-family: inherit;
+                    padding: 2px 10px 2px 30px;
+                }
+                img{
+                    width: 15px;
+                    height: 15px;
+                    position: absolute;
+                    top: 8px;
+                    left:10px;
+                    }
+            }
+            .CustAddUserBtn{
+                gap:8.2px;
+                padding: 2px;
+                width:40px;
+                height: 20px;
+                font-size: 6pt;
+                .CustAddicon{
+                    width: 8px;
+                    height: 8px;
+                    margin-left: 1px;
+                }
+            }
+        }
+        .customerTable{
+            top:0%;
+            left:5%;
+            width:90%;
+            height:70% !important ;
+      
+    
+            .Adduser{
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                width: 100%;
+                height: 100% !important;
+                justify-content: center;
+                background-color:#fff;
+                .addUserForm{
+                    width:90%;
+                    padding: 25px;
+                    font-family: inherit;
+                }
+                .addUserForm-Container{
+                    text-align: left;
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                    height: 100%;
+                    justify-content: space-evenly;
+    
+                    p{
+                        font-size: 10pt;
+                      text-align: center;
+                    }
+                
+                    .addUserForm-Details{
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+    
+                      label{
+                        font-size: 10pt;
+                        width:20%;
+                      }
+                      input{
+                        font-family: inherit;
+                        width: 40%;
+                        height: 10px;
+                        font-size: 8pt;
+                        border-radius: 2px;
+                      }
+                      input::-webkit-outer-spin-button,
+                      input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                      }
+                      button{
+                        width: 20%;
+                        height: 20px;
+                        margin: 10px;
+                        font-size: 7pt;
+                      }
+                      .formsave{
+                        border-radius: 2px;
+                      }
+                      .formexit{
+                        border-radius: 2px;
+                      }
+                    }
+                }
+            }
+            .custTabel{
+                border: 1px solid $icon;
+                border-radius: 5px;
+                height: 100% !important ;
+
+                .producttableHead{
+                    font-size: 6pt;
+                    display: flex;
+                    padding: 3px;
+                    border-radius: 14px;
+               
+                    .producttableHeadId{
+                        width:5%;
+                        text-align: center;
+                    }
+                    .producttableHeadName{
+                        width:19%;
+                    }
+                    .producttableHeadEmail{
+                        width:14%;
+                    }
+                    .producttableHeadPassword{
+                        width: 17%;
+                        text-align: left;
+                    }
+                    .producttableHeadNumber{
+                        width: 22%;
+                        text-align: left;
+                    }
+                    .producttableHeadEdit{
+                        width:10%;
+                        font-size:6pt;
+                        text-align: left;
+
+                    }
+                }
+                .ProductDetailTable{
+                    font-size: 5pt;
+                    display: flex;
+                    padding: 7px;
+                    letter-spacing: 0.1px;
+                    p{
+                        padding:0 2px;
+                    }
+                    .productId{
+                        width:5%;
+                        text-align: left;
+                    }
+                    .productdetailName{
+                        width:19%;
+                        text-align: left;
+                        word-wrap: break-word;
+                    }
+                    .productdetailEmail{
+                        width:15%;
+                       font-size: 5pt;
+                    }
+                    .productdetailPassword{
+                        width: 13%;
+                    }
+                    .productdetailNumber{
+                        width: 20%;
+                    }
+                    .productdetailbutton{
+                        margin-left: 5px;
+                        width: 7%;
+                        .productButton{
+                            width: 15px;
+                            height:15px;
+                            padding: 0px;
+                            .productDelete{
+                                width:8px;
+                                height: 8px;
+                            }
+                
+                            .productEdit{
+                                width: 8px;
+                                height: 8px;
+                            }
+                        }
+                    
+                    }                
+                }
+            }
+        }
+    
+        .productEditBtn{
+            border-radius: 2px 0 0 2px;
+            background-color: rgba(255, 166, 0, 0.809);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .productDeleteBtn{
+            border-radius: 0 2px 2px 0;
+            background-color: rgba(255, 0, 0, 0.911);
+            border: none;
+            &:hover{
+                background-color:$active;
+    
+           }
+        }
+        .PaginationButtons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:5px;
+            gap: 5px;
+            .pgno{
+                border: none;
+                border-radius: 2px;
+                background-color: $icon;
+                color: #fff;
+                font-size: 5px;
+                padding: 2px;
+            }
+        }
+        .edituser{
+            display: flex;
+            position: absolute;
+            top:0;
+            background-color: #fff;
+            left: 0;
+            display: flex;
+            width: 100%;
+            height: 100% !important;
+            justify-content: center;
+            background-color:#fff;
+            .edituserForm{
+                width:100%;
+                padding: 15px;
+                font-family: inherit;
+            }
+            .edituserForm-Container{
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                height: 100%;
+                justify-content: space-evenly;
+    
+                p{
+                    @include p3;
+                    font-size: 10pt;
+                  text-align: center;
+                }
+    
+                .edituserForm-Details{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+    
+                  label{
+                    width:20%;
+                    font-size: 10pt;
+                  }
+                  input{
+                    font-family: inherit;
+                    width: 40%;
+                    height: 20px;
+                    font-size: 8pt;
+                  }
+             
+                  button{
+                    width: 50px;
+                    height: 25px;
+                    font-size: 8pt;
+                  }
+                }
+            }
+        }
+        .hidden{
+            display: none;
+        }
+        
+    }
+}

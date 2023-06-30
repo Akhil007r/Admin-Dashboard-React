@@ -3,6 +3,7 @@ import Product from "../../components/images/application.png";
 import Edit from "../../components/images/edit.svg";
 import Delete from "../../components/images/delete.svg";
 import LoadingScreen from "../../utils/loading.js";
+import searchIco from "../../components/images/search.png";
 import "./categoryStyles.scss";
 import AddSvg from "../../components/images/Add.svg";
 import Pagination from "../../components/Pagination";
@@ -29,22 +30,31 @@ export default class CategoryComp extends Component {
       stock,
       brand,
       category,
-      categoryArr,
       handleUpdate,
       handleDelete,
-      handleCategoryChange
+      handleCategoryChange,
+      searchItem,
+      currentposts,
+      totalPosts,
+      handleNextBtn,
+      handlePrevBtn
     } = this.props;
-    const lastPostIndex = currentPage * postPerPage;
-    const firstPostIndex = lastPostIndex - postPerPage;
-    const currentposts = categoryArr.slice(firstPostIndex, lastPostIndex);
-    const totalPosts = categoryArr.length;
     return (
       <div className="customerMain">
-        <>{handleToast ? <Toast /> : ""}</>
+       <>{handleToast ? <Toast /> : ""}</>
         <div className="customerHead">
           <div>
             <img src={Product} alt="customer" />
-            <h3>Customer Details</h3>
+            <h3>Category Details</h3>
+          </div>
+          <div className="searchContainer">
+            <input
+              type="search"
+              className="navSearch"
+              name="searchItem"
+              onChange={handleChange}
+            />
+            {searchItem===""&&<img src={searchIco} alt="search" aria-hidden="true" />}
           </div>
           <div>
             <button
@@ -61,17 +71,16 @@ export default class CategoryComp extends Component {
             <form
               className="addUserForm"
               onSubmit={handleSubmit}
-              autoComplete="off"
             >
               <div className="addUserForm-Container">
                 <p>Enter Product Details:</p>
                 <div className="addUserForm-Details ">
                   <label>Title</label>
-                  <input type="text" name="Title" onChange={handleChange} />
+                  <input type="text" name="title" onChange={handleChange} />
                 </div>
                 <div className="addUserForm-Details ">
                   <label>Price</label>
-                  <input type="number" name="Price" onChange={handleChange} />
+                  <input type="number" name="price" onChange={handleChange} />
                 </div>
                 <div className="addUserForm-Details">
                   <label>Stock</label>
@@ -91,7 +100,7 @@ export default class CategoryComp extends Component {
                   <input type="text" name="category" onChange={handleChange} />
                 </div>
                 <div className="addUserForm-Details">
-                  <button className="formsave" type="submit">
+                  <button className="formsave" type="submit" onClick={handleSubmit}>
                     Save
                   </button>
                   <button className="formexit" onClick={handleAddButton}>
@@ -103,36 +112,34 @@ export default class CategoryComp extends Component {
           </div>
 
           <div className="custTabel">
-            <div className="tableHead">
-              <div className="tableHeadId">
+            <div className="CattableHead">
+              <div className="CattableHeadId">
                 <p>Id</p>
               </div>
-              <div className="tableHeadName">
+              <div className="CattableHeadName">
                 <p>Title</p>
               </div>
-              <div className="tableHeadEmail">
+              <div className="CattableHeadEmail">
                 <p>Price</p>
               </div>
-              <div className="tableHeadPassword">
+              <div className="CattableHeadPassword">
                 <p>Stock</p>
               </div>
-              <div className="tableHeadNumber">
+              <div className="CattableHeadNumber">
                 <p>brand</p>
               </div>
-              <div className="tableHeadNumber">
-                {/* <label >Category:</label> */}
-                <select  name="category"  onChange={handleCategoryChange}>
-                <option value="">Select Category</option>
+              <div className="CattableHeadNumber">
+                <select name="category" onChange={handleCategoryChange}>
+                  <option value="">Select Category</option>
                   <option value="smartphones">Smartphones</option>
                   <option value="laptops">Laptops</option>
                   <option value="fragrances">Fragrances</option>
                   <option value="skincare">Skincare</option>
                   <option value="groceries">Groceries</option>
                   <option value="home-decoration">Home Decoration</option>
-
                 </select>
               </div>
-              <div className="tableHeadEdit">
+              <div className="CattableHeadEdit">
                 <p>Update</p>
               </div>
             </div>
@@ -141,63 +148,78 @@ export default class CategoryComp extends Component {
               <LoadingScreen />
             ) : (
               <>
-                {currentposts.map((item,index) => {
-                  return (
-                    <div className="ProductDetailTable" key={index}>
-                      <div className="productId">
-                        <p>{item.id}</p>
+                {currentposts
+                  .filter((item) => {
+                    if (searchItem === "") {
+                      return item;
+                    } else if (
+                      JSON.stringify(item.id) === searchItem ||
+                      item.title
+                        .toLowerCase()
+                        .includes(searchItem.toLowerCase()) ||
+                      item.brand
+                        .toLowerCase()
+                        .includes(searchItem.toLowerCase()) ||
+                      item.category
+                        .toLowerCase()
+                        .includes(searchItem.toLowerCase())
+                    ) {
+                      return item;
+                    }
+                    else{
+                      return false
+                    }
+                  })
+                  .map((item, index) => {
+                    return (
+                      <div className="ProductDetailTable" key={index}>
+                        <div className="productId">
+                          <p>{item.id}</p>
+                        </div>
+                        <div className="productdetailName">
+                          <p>{item.title}</p>
+                        </div>
+                        <div className="productdetailEmail">
+                          <p>{item.price}</p>
+                        </div>
+                        <div className="productdetailPassword">
+                          <p>{item.stock}</p>
+                        </div>
+                        <div className="productdetailNumber">
+                          <p>{item.brand}</p>
+                        </div>
+                        <div className="productdetailNumber">
+                          <p>{item.category}</p>
+                        </div>
+                        <div className="productdetailbutton">
+                          <button
+                            className="productButton productEditBtn"
+                            value={item.id}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            <img
+                              className="productEdit"
+                              src={Edit}
+                              alt="edit"
+                            ></img>
+                          </button>
+                          <button
+                            className="productButton productDeleteBtn"
+                            value={item.id}
+                            onClick={() => {
+                              handleDelete(item.id,currentposts);
+                            }}
+                          >
+                            <img
+                              className="productDelete"
+                              src={Delete}
+                              alt="delete"
+                            ></img>
+                          </button>
+                        </div>
                       </div>
-                      <div className="productdetailName">
-                        <p>{item.title}</p>
-                      </div>
-                      <div className="productdetailEmail">
-                        <p>{item.price}</p>
-                      </div>
-                      <div className="productdetailPassword">
-                        <p>{item.stock}</p>
-                      </div>
-                      <div className="productdetailNumber">
-                        <p>{item.brand}</p>
-                      </div>
-                      <div className="productdetailNumber">
-                        <p>{item.category}</p>
-                      </div>
-                      <div className="productdetailbutton">
-                        <button
-                          className="productButton productEditBtn"
-                          value={item.id}
-                          onClick={() => handleEdit(item.id)}
-                        >
-                          <img
-                            className="productEdit"
-                            src={Edit}
-                            alt="edit"
-                          ></img>
-                        </button>
-                        <button
-                          className="productButton productDeleteBtn"
-                          value={item.id}
-                          onClick={() => {
-                            handleDelete(item.id);
-                          }}
-                        >
-                          <img
-                            className="productDelete"
-                            src={Delete}
-                            alt="delete"
-                          ></img>
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-                <Pagination
-                  userdata={data}
-                  currentPage={currentPage}
-                  postPerPage={postPerPage}
-                  handleClick={handleClick}
-                  totalPosts={totalPosts}
-                />
+                    );
+                  })}
               </>
             )}
           </div>
@@ -278,6 +300,17 @@ export default class CategoryComp extends Component {
             </div>
           </form>
         </div>
+        <Pagination
+          userdata={data}
+          currentPage={currentPage}
+          postPerPage={postPerPage}
+          handleClick={handleClick}
+          totalPosts={totalPosts}
+          handlePrevBtn={handlePrevBtn}
+          handleNextBtn={handleNextBtn}
+          maxPageLimit={this.props.pagination.maxPageLimit}
+          minPageLimit={this.props.pagination.minPageLimit}
+        />
       </div>
     );
   }

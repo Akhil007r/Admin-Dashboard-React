@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import CustomerComp from "./customer.component";
 
@@ -9,7 +7,7 @@ export default class Customer extends Component {
     this.state = {
       userdata: [],
       currentPage: 1,
-      postPerPage: 8,
+      postPerPage: 2,
       loading: true,
       id: "",
       firstName: "",
@@ -20,6 +18,16 @@ export default class Customer extends Component {
       Adddata: false,
       handleToast: false,
       editData: false,
+      handleErrors:{
+        dataEntry:false,
+        userFound:true,
+      },
+      pagination:{
+        pageNumberLimit:5,
+        maxPageLimit:5,
+        minPageLimit:0,
+      },
+      searchItem:"",
     };
     this.getData.bind(this);
     this.handleClick.bind(this);
@@ -43,6 +51,9 @@ export default class Customer extends Component {
 
     this.setState((prevstate) => ({
       Adddata: !prevstate.Adddata,
+      handleErrors:{
+        dataEntry:false
+      }
     }));
 
   };
@@ -59,6 +70,9 @@ export default class Customer extends Component {
     e.preventDefault();
     this.setState((prevstate) => ({
       editData: !prevstate.editData,
+      handleErrors:{
+        dataEntry:false
+      }
     }));
   };
   // handle Edit
@@ -90,17 +104,13 @@ export default class Customer extends Component {
     const lastName = this.state.lastName;
     const phone = this.state.phone;
     const password = this.state.password;
-    if (
-      email === "" ||
-      firstName === "" ||
-      lastName === "" ||
-      phone === "" ||
-      password === ""
-    ) {
+    if (email === "" ||firstName === "" ||lastName === "" ||phone === "" ||password === "") {
       if (this.state.Adddata === true) {
-        alert("Enter All the Details");
+        this.setState({handleErrors:{dataEntry:true}})
       }
+
     } else {
+      this.setState({handleErrors:{dataEntry:false}})
       this.addData();
       this.setState({
         handleToast: true,
@@ -115,45 +125,49 @@ export default class Customer extends Component {
   };
   // handle update data
   handleUpdate = (e) => {
-    console.log(e);
     const id = this.state.id;
     const email = this.state.email;
     const firstName = this.state.firstName;
     const lastName = this.state.lastName;
     const phone = this.state.phone;
     const password = this.state.password;
-    if (
-      email === "" ||
-      firstName === "" ||
-      lastName === "" ||
-      phone === "" ||
-      password === ""
-    ) {
+    if (email === "" ||firstName === "" ||lastName === "" ||phone === "" ||password === "") {
       if (this.state.editData === true) {
-        alert("Details cannot be empty");
+        this.setState({handleErrors:{dataEntry:true}})
       }
     } else {
       this.UpdateData(id);
-      this.setState({
-        handleToast: true,
-      });
-      setTimeout(() => {
-        this.setState({
+      this.setState({ handleToast: true,});
+      setTimeout(() => {this.setState({
           handleToast: false,
-        });
-      }, 5000);
+        });}, 5000);
     }
     e.preventDefault();
   };
 
+
   //  Deleting entry from db
-  handleDelete = (id) => {
+  handleDelete = (id,currentposts) => {
+    if(currentposts.length === 1 || "1"){
+      this.setState((prev)=>(
+        {
+          currentPage:prev.currentPage - 1
+        }))
+    }
     fetch("http://localhost:4001/users/" + id, {
       method: "delete",
     })
       .then((res) => {
         console.log(res);
         this.getData();
+        this.setState({
+          handleToast: true,
+        });
+        setTimeout(() => {
+          this.setState({
+            handleToast: false,
+          });
+        }, 5000);
       })
       .catch((e) => {
         console.log(e.msg);
@@ -163,7 +177,7 @@ export default class Customer extends Component {
 
   // Binding Functionalities
 
-  handle = {
+  handleFunctions = {
     handleClick: this.handleClick.bind(this),
     handleEdit: this.handleEdit.bind(this),
     handleChange: this.handleChange.bind(this),
@@ -214,6 +228,7 @@ export default class Customer extends Component {
           });
         }
         this.getData();
+
       })
       .catch((e) => {
         console.log(e.msg);
@@ -240,13 +255,8 @@ export default class Customer extends Component {
         if (res.status === 200) {
           console.log(res.status === 200);
           this.setState({
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            password: "",
-            editData: false,
-            Adddata: false,
+            firstName: "", lastName: "", email: "", phone: "",
+            password: "",editData: false, Adddata: false,
           });
         }
         this.getData();
@@ -276,6 +286,43 @@ export default class Customer extends Component {
         console.log(e.msg);
       });
   }
+
+  // paginate
+     handleNextBtn=()=>{
+      this.setState((prev)=>({
+        currentPage: JSON.parse(prev.currentPage) + 1
+      }))
+      console.log(this.state.pagination.pageNumberLimit)
+
+      if(this.state.currentPage + 1 > this.state.pagination.maxPageLimit){
+        this.setState((prev)=>({
+          pagination:{
+            pageNumberLimit:prev.pagination.pageNumberLimit,
+            maxPageLimit: prev.pagination.maxPageLimit + this.state.pagination.pageNumberLimit,
+            minPageLimit: prev.pagination.minPageLimit + this.state.pagination.pageNumberLimit
+          }
+        }))
+      }
+     } 
+
+     handlePrevBtn=()=>{
+      console.log("clicked")
+      if(this.state.currentPage !== 0){
+        this.setState((prev)=>({
+        currentPage: JSON.parse(prev.currentPage) - 1
+      }))}
+      if((this.state.currentPage - 1) % this.state.pagination.pageNumberLimit === 0){
+        console.log("executed")
+        this.setState((prev)=>({
+          pagination:{
+            pageNumberLimit:prev.pagination.pageNumberLimit,
+            maxPageLimit: prev.pagination.maxPageLimit - this.state.pagination.pageNumberLimit,
+            minPageLimit: prev.pagination.minPageLimit - this.state.pagination.pageNumberLimit
+          }
+        }))
+      }
+     } 
+
   // mounting the data when before rendering into page
 
   componentDidMount() {
@@ -285,9 +332,22 @@ export default class Customer extends Component {
   // rendering Customer components
 
   render() {
+    const lastPostIndex = this.state.currentPage * this.state.postPerPage;
+    const firstPostIndex = lastPostIndex - this.state.postPerPage;
+    const currentposts = this.state.userdata.slice(firstPostIndex, lastPostIndex);
+    const totalPosts = this.state.userdata.length;
     return (
       <>
-        <CustomerComp {...this.state} {...this.handle} />
+        <CustomerComp
+         {...this.state}
+         {...this.handleFunctions}
+         lastPostIndex={lastPostIndex}
+         firstPostIndex={firstPostIndex}
+         currentposts={currentposts}
+         totalPosts={totalPosts}
+         handlePrevBtn={this.handlePrevBtn}
+         handleNextBtn={this.handleNextBtn}
+          />
       </>
     );
   }

@@ -7,6 +7,8 @@ import "./productStyles.scss";
 import AddSvg from "../../components/images/Add.svg";
 import Pagination from "../../components/Pagination";
 import Toast from "../../components/Toast";
+import searchIco from "../../components/images/search.png";
+
 export default class ProductComp extends React.Component {
   render() {
     const {
@@ -31,19 +33,30 @@ export default class ProductComp extends React.Component {
       category,
       handleUpdate,
       handleDelete,
-
+      handleErrors,
+      totalPosts,
+      currentposts,
+      searchItem,
+      handleNextBtn,
+      handlePrevBtn
     } = this.props;
-    const lastPostIndex = currentPage * postPerPage;
-    const firstPostIndex = lastPostIndex - postPerPage;
-    const currentposts = userdata.slice(firstPostIndex, lastPostIndex);
-    const totalPosts = userdata.length;
+   
     return (
       <div className="customerMain">
         <>{handleToast ? <Toast /> : ""}</>
         <div className="customerHead">
           <div>
             <img src={Product} alt="customer" />
-            <h3>Customer Details</h3>
+            <h3>Product Details</h3>
+          </div>
+          <div className="searchContainer">                      
+            <input
+              type="search"
+              className="navSearch"
+              name="searchItem"
+              onChange={handleChange}
+            />
+            {searchItem===""&&<img src={searchIco} alt="search" aria-hidden="true" />}
           </div>
           <div>
             <button
@@ -66,11 +79,11 @@ export default class ProductComp extends React.Component {
                 <p>Enter Product Details:</p>
                 <div className="addUserForm-Details ">
                   <label>Title</label>
-                  <input type="text" name="Title" onChange={handleChange} />
+                  <input type="text" name="title" onChange={handleChange} />
                 </div>
                 <div className="addUserForm-Details ">
                   <label>Price</label>
-                  <input type="number" name="Price" onChange={handleChange} />
+                  <input type="number" name="price" onChange={handleChange} />
                 </div>
                 <div className="addUserForm-Details">
                   <label>Stock</label>
@@ -89,6 +102,7 @@ export default class ProductComp extends React.Component {
                   <label>Category</label>
                   <input type="text" name="category" onChange={handleChange} />
                 </div>
+              {handleErrors.dataEntry && <p className="error">Enter all  Details ...!</p>}
                 <div className="addUserForm-Details">
                   <button className="formsave" type="submit">
                     Save
@@ -102,26 +116,26 @@ export default class ProductComp extends React.Component {
           </div>
 
           <div className="custTabel">
-            <div className="tableHead">
-              <div className="tableHeadId">
+            <div className="producttableHead">
+              <div className="producttableHeadId">
                 <p>Id</p>
               </div>
-              <div className="tableHeadName">
+              <div className="producttableHeadName">
                 <p>Title</p>
               </div>
-              <div className="tableHeadEmail">
+              <div className="producttableHeadEmail">
                 <p>Price</p>
               </div>
-              <div className="tableHeadPassword">
+              <div className="producttableHeadPassword">
                 <p>Stock</p>
               </div>
-              <div className="tableHeadNumber">
-                <p>brand</p>
+              <div className="producttableHeadNumber">
+                <p>Brand</p>
               </div>
-              <div className="tableHeadNumber">
-                <p>category</p>
+              <div className="producttableHeadNumber">
+                <p>Category</p>
               </div>
-              <div className="tableHeadEdit">
+              <div className="producttableHeadEdit">
                 <p>Update</p>
               </div>
             </div>
@@ -130,7 +144,29 @@ export default class ProductComp extends React.Component {
               <LoadingScreen />
             ) : (
               <>
-                {currentposts.map((item) => {
+                {currentposts
+                .filter((item) => {
+                  if (searchItem === "") {
+                    return item;
+                  } else if (
+                    JSON.stringify(item.id) === searchItem ||
+                    item.title
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase()) ||
+                    item.brand
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase()) ||
+                    item.category
+                      .toLowerCase()
+                      .includes(searchItem.toLowerCase())
+                  ) {
+                    return item;
+                  }
+                  else{
+                    return false
+                  }
+                })
+                .map((item) => {
                   return (
                     <div className="ProductDetailTable" key={item.id}>
                       <div className="productId">
@@ -165,7 +201,7 @@ export default class ProductComp extends React.Component {
                           className="productButton productDeleteBtn"
                           value={item.id}
                           onClick={() =>{ 
-                            handleDelete(item.id)
+                            handleDelete(item.id,currentposts)
                           }}
                         >
                           <img
@@ -178,16 +214,10 @@ export default class ProductComp extends React.Component {
                     </div>
                   );
                 })}
-                <Pagination
-                  userdata={userdata}
-                  currentPage={currentPage}
-                  postPerPage={postPerPage}
-                  handleClick={handleClick}
-                  totalPosts={totalPosts}
-                />
               </>
             )}
           </div>
+          
         </div>
 
         <div className={editData ? "edituser Adduser" : "hidden"}>
@@ -254,6 +284,7 @@ export default class ProductComp extends React.Component {
                   value={category}
                 />
               </div>
+              {handleErrors.dataEntry && <p className="error">Enter all  Details ...!</p>}
               <div className="edituserForm-Details">
                 <button className="formsave" type="submit">
                   Save
@@ -265,6 +296,17 @@ export default class ProductComp extends React.Component {
             </div>
           </form>
         </div>
+        <Pagination
+                  userdata={userdata}
+                  currentPage={currentPage}
+                  postPerPage={postPerPage}
+                  handleClick={handleClick}
+                  totalPosts={totalPosts}
+                  handlePrevBtn={handlePrevBtn}
+                  handleNextBtn={handleNextBtn}
+                  maxPageLimit={this.props.pagination.maxPageLimit}
+                  minPageLimit={this.props.pagination.minPageLimit}
+                />
       </div>
     );
   }

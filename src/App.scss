@@ -4,6 +4,11 @@
     margin:0;
     font-family:'Inter', sans-serif;
 }
+title{
+    font-family:inherit;
+}
 body{
     background-color: $bgColor;
+    // width: fit-content;
+    // height: fit-content;
 }

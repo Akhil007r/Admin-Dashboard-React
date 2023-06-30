@@ -8,6 +8,8 @@ import "./cardStyles.scss";
 
 export default class CardComp extends Component {
   render() {
+  const {products,users}=this.props;
+
     return (
       <div className="overViewContainer">
         <div className="overViewGreeting">
@@ -18,29 +20,27 @@ export default class CardComp extends Component {
         </div>
 
         <div className="overviewContent">
-          {/* <div className="customer"> */}
           <NavLink to="/Customer" className="customer">
             <img src={customer} alt="customer" />
-            <p>Customer</p>
+            <p>Customer </p>
+            <label style={{fontSize:"8pt"}}>No. Of Users {users}</label>
             <div className="slidecontainer">
-              <div style={{ width: "50%", height: "100%" }} className="slider">
+              <div style={{ width: `${users +"%"}`, height: "100%" }} className="slider">
                 {" "}
               </div>
             </div>
           </NavLink>
-          {/* </div> */}
-          {/* <div className="customer"> */}
           <NavLink to="/Product" className="customer">
             <img src={product} alt="customer" />
             <p>Product</p>
+            <label style={{fontSize:"8pt"}}>No. Of Products {products}</label>
+
             <div className="slidecontainer">
-              <div style={{ width: "70%", height: "100%" }} className="slider">
+              <div style={{ width:  `${products +'%'}`, height: "100%" }} className="slider">
                 {" "}
               </div>
             </div>
           </NavLink>
-          {/* </div> */}
-          {/* <div className="customer"> */}
           <NavLink to="/Category" className="customer">
             <img src={category} alt="customer" />
             <p>Category</p>
