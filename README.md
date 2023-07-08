@@ -9,3 +9,7 @@ The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 
+### `JSON-SERVER`
+
+Map to Utils Folder & run
+### `json-server db.json -p=4001`
