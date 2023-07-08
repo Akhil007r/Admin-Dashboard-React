@@ -1,7 +1,26 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { pageRequest,pageSuccess,pageFailure } from "../../store/Pagination/paginationAction";
 import ProductComp from "./products.component";
 
-export default class Product extends Component {
+const mapStateToProps =(state)=>{
+  console.log(state)
+return{
+  contentdata:state.page.contentdata,
+  currentPage:state.page.currentPage,
+  postPerPage:state.page.postPerPage,
+  pagination:state.page.pagination,
+}
+}
+const mapDispatchToProps =(dispatch)=>{
+  console.log(dispatch)
+  return{
+    pageRequest:()=>dispatch(pageRequest()),
+    pageSuccess:(data)=>dispatch(pageSuccess(data)),
+    pageFailure:(error)=>dispatch(pageFailure(error)),
+  }
+}
+ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,13 +206,19 @@ export default class Product extends Component {
   // fetching Data from Json
 
   getData() {
+    const {pageRequest,pageSuccess,pageFailure}=this.props
+    pageRequest();
     fetch("http://localhost:4001/products")
       .then((res) => res.json())
       .then((data) => {
         this.setState({ userdata: data, loading: false });
+        pageSuccess(data)
+
       })
       .catch((e) => {
         console.log(e.message);
+        pageFailure(e.message)
+
       });
   }
 
@@ -261,41 +286,6 @@ export default class Product extends Component {
       });
   }
 
-   // paginate
-   handleNextBtn=()=>{
-    this.setState((prev)=>({
-      currentPage: JSON.parse(prev.currentPage) + 1
-    }))
-    console.log(this.state.pagination.pageNumberLimit)
-
-    if(this.state.currentPage + 1 > this.state.pagination.maxPageLimit){
-      this.setState((prev)=>({
-        pagination:{
-          pageNumberLimit:prev.pagination.pageNumberLimit,
-          maxPageLimit: prev.pagination.maxPageLimit + this.state.pagination.pageNumberLimit,
-          minPageLimit: prev.pagination.minPageLimit + this.state.pagination.pageNumberLimit
-        }
-      }))
-    }
-   } 
-
-   handlePrevBtn=()=>{
-    if(this.state.currentPage !== 0){
-      this.setState((prev)=>({
-      currentPage: JSON.parse(prev.currentPage) - 1
-    }))}
-    if((this.state.currentPage - 1) % this.state.pagination.pageNumberLimit === 0){
-      this.setState((prev)=>({
-        pagination:{
-          pageNumberLimit:prev.pagination.pageNumberLimit,
-          maxPageLimit: prev.pagination.maxPageLimit - this.state.pagination.pageNumberLimit,
-          minPageLimit: prev.pagination.minPageLimit - this.state.pagination.pageNumberLimit
-        }
-      }))
-    }
-   } 
-
-
   // mounting the data when before rendering into page
 
   componentDidMount() {
@@ -305,10 +295,10 @@ export default class Product extends Component {
   // rendering Customer components
 
   render() {
-    const lastPostIndex = this.state.currentPage * this.state.postPerPage;
-    const firstPostIndex = lastPostIndex - this.state.postPerPage;
-    const currentposts = this.state.userdata.slice(firstPostIndex, lastPostIndex);
-    const totalPosts = this.state.userdata.length;
+    const lastPostIndex = this.props.currentPage * this.props.postPerPage;
+    const firstPostIndex = lastPostIndex - this.props.postPerPage;
+    const currentposts = this.props.contentdata.slice(firstPostIndex, lastPostIndex);
+    const totalPosts = this.props.contentdata.length;
     return (
       <>
         <ProductComp 
@@ -325,3 +315,5 @@ export default class Product extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps,mapDispatchToProps)(Product)

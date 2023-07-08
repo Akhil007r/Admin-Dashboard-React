@@ -3,7 +3,6 @@ import "./login.scss";
 export default class LoginComp extends Component {
   render() {
     const { handleChange,handleauth,LogError,DetailErr } = this.props;
-      console.log(DetailErr)
     return (
       <div className="LoginContainer">
       { LogError && <div className="LogError">

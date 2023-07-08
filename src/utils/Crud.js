@@ -2,13 +2,13 @@ const Api = `http://localhost:4001/`;
 
 
 async function getData(urlpath) {
-  let data = await fetch(`http://localhost:4001/${urlpath}`);
+  let data = await fetch(Api+`${urlpath}`);
   let response = await data.json();
   return await response;
 }
 
 async function addData(urlpath,data){
-  fetch(`http://localhost:4001/${urlpath}`, {
+  fetch(Api+`${urlpath}`, {
     method: "post",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(data),
@@ -24,27 +24,23 @@ async function addData(urlpath,data){
 }
 
 async function updateData(urlpath,data,id){
-  fetch(`http://localhost:4001/${urlpath}/ `+ id, {
+  fetch(Api+`${urlpath}/ `+ id, {
     method: "put",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(data),
   })
     .then((res) => {
       if (res.status === 200) {
-        this.setState({ title: "", price: "", stock: "", brand: "", category: "", editData: false, Adddata: false,
-        });
-        this.getData();
-      }
-      this.getData();
-    })
+        return res.status
+    }})
     .catch((e) => {
-      console.log(e.msg);
+      return console.log(e.msg);
     });
 
 }
  
 async function deleteData(urlpath,id){
-  fetch(`http://localhost:4001/${urlpath}/` + id, {
+  fetch(Api+`${urlpath}/` + id, {
     method: "delete",
   })
     .then((res) => {
@@ -55,5 +51,5 @@ async function deleteData(urlpath,id){
     });
 }
 
-export { getData ,addData, Api , updateData , deleteData};
+export { getData ,addData, updateData , deleteData};
 

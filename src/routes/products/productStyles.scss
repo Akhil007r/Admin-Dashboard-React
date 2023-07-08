@@ -291,13 +291,22 @@
         justify-content: center;
         padding:10px;
         gap: 10px;
+       
         .pgno{
             border: none;
+            background-color: #19191a;
             border-radius: 5px;
-            background-color: $icon;
             color: #fff;
             font-size: 8px;
             padding: 5px;
+            &:disabled{
+            background-color: $icon;
+                
+            }
+        }
+        &:disabled{
+            background-color:$icon;
+            
         }
     }
     .active{
@@ -678,11 +687,19 @@
             gap: 5px;
             .pgno{
                 border: none;
-                border-radius: 2px;
-                background-color: $icon;
+                background-color: #19191a;
+                border-radius: 5px;
                 color: #fff;
-                font-size: 5px;
-                padding: 2px;
+                font-size: 8px;
+                padding: 5px;
+                &:disabled{
+                background-color: $icon;
+                    
+                }
+            }
+            &:disabled{
+                background-color:$icon;
+                
             }
         }
         .edituser{
@@ -991,11 +1008,19 @@
             gap: 5px;
             .pgno{
                 border: none;
-                border-radius: 2px;
-                background-color: $icon;
+                background-color: #19191a;
+                border-radius: 5px;
                 color: #fff;
-                font-size: 5px;
-                padding: 2px;
+                font-size: 8px;
+                padding: 5px;
+                &:disabled{
+                background-color: $icon;
+                    
+                }
+            }
+            &:disabled{
+                background-color:$icon;
+                
             }
         }
         .edituser{
@@ -1303,11 +1328,19 @@
             gap: 5px;
             .pgno{
                 border: none;
-                border-radius: 2px;
-                background-color: $icon;
+                background-color: #19191a;
+                border-radius: 5px;
                 color: #fff;
-                font-size: 5px;
-                padding: 2px;
+                font-size: 8px;
+                padding: 5px;
+                &:disabled{
+                background-color: $icon;
+                    
+                }
+            }
+            &:disabled{
+                background-color:$icon;
+                
             }
         }
         .edituser{

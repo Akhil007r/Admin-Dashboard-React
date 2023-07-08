@@ -286,6 +286,7 @@
         justify-content: center;
         padding:10px;
         gap: 10px;
+     
         .pgno{
             border: none;
             border-radius: 5px;
@@ -293,7 +294,12 @@
             color: #fff;
             font-size: 8px;
             padding: 5px;
+            &[disabled=true]{
+                background-color: #19191a;
+                
+            }
         }
+
     }
     .active{
         border: none;

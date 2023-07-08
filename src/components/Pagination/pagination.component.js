@@ -3,20 +3,21 @@ import React, { Component } from "react";
 export default class PaginationComponent extends Component {
    
   render() {
-    const {handleClick, pageNumbers,currentPage,maxPageLimit,minPageLimit}=this.props;
+    const {pageNumbers,currentPage,maxPageLimit,minPageLimit}=this.props;
     const length = currentPage === pageNumbers.length
+    console.log(currentPage,pageNumbers.length,length)
     return (
       <>
         <div className="PaginationButtons">
         <button className="pgno" onClick={this.props.prevPage} disabled={currentPage === 1 ?true:false}>prev</button>
 
-          {pageNumbers.map((pagedata, index) => {
+          {pageNumbers && pageNumbers.map((pagedata, index) => {
             if(pagedata < maxPageLimit + 1 && pagedata >minPageLimit){ 
               return (
               <button
                 key={index}
                 id={pagedata}
-                onClick={handleClick}
+                onClick={this.props.handleClick}
                 className={currentPage === pagedata ? "active" : "pgno"}
               >
                 {pagedata}
@@ -31,6 +32,7 @@ export default class PaginationComponent extends Component {
 
 
         </div>
+        {pageNumbers.length!==0 &&<p>{this.props.currentPage} of {pageNumbers.length}</p> }
       </>
     );
   }

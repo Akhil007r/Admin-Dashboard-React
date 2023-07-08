@@ -1,25 +1,43 @@
-import React from "react";
+import React, { Component } from "react";
+import { nextPage,prevPage,handleClick } from "../../store/Pagination/paginationAction";
 import PaginationComponent from "./pagination.component";
+import { connect } from "react-redux";
 
-class Pagination extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    currentPage: state.page.currentPage,
+    postPerPage: state.page.postPerPage,
+    data: state.page.data,
+    paginationLimit: state.page.paginationLimit,
+  };
+};
 
- 
+const mapDispatchToProps = (dispatch) => {
+  return{
+    nextPage:()=>dispatch(nextPage()),
+    prevPage:()=>dispatch(prevPage()),
+    handleClick:(e)=>{dispatch(handleClick(e))}
+  }
+};
+
+class Pagination extends Component {
   render() {
-    const { totalPosts, currentPage, postPerPage, handleClick,handlePrevBtn, handleNextBtn,maxPageLimit,minPageLimit} = this.props;
-   const pageNumbers = [];
+    const {
+      totalPosts,
+      postPerPage,
+      maxPageLimit,
+      minPageLimit,
+    } = this.props;
+    const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(totalPosts / postPerPage); i++) {
       pageNumbers.push(i);
     }
 
-
-     return (
+    return (
       <>
         <PaginationComponent
-          handleClick={handleClick}
+        {...this.props}
           pageNumbers={pageNumbers}
-          currentPage={currentPage}
-          nextPage={handleNextBtn}
-          prevPage={handlePrevBtn}
           maxPageLimit={maxPageLimit}
           minPageLimit={minPageLimit}
         />
@@ -27,4 +45,4 @@ class Pagination extends React.Component {
     );
   }
 }
-export default Pagination;
+export default connect(mapStateToProps,mapDispatchToProps)(Pagination);

@@ -13,9 +13,7 @@ export default class CustomerComp extends React.Component {
   render() {
     const {
       userdata,
-      currentPage,
       postPerPage,
-      handleClick,
       loading,
       handleEdit,
       handleSubmit,
@@ -37,8 +35,6 @@ export default class CustomerComp extends React.Component {
       totalPosts,
       currentposts,
       searchItem,
-      handleNextBtn,
-      handlePrevBtn
     } = this.props;
     return (
       <div className="customerMain">
@@ -306,12 +302,8 @@ export default class CustomerComp extends React.Component {
         </div>
         <Pagination
                   userdata={userdata}
-                  currentPage={currentPage}
                   postPerPage={postPerPage}
-                  handleClick={handleClick}
                   totalPosts={totalPosts}
-                  handlePrevBtn={handlePrevBtn}
-                  handleNextBtn={handleNextBtn}
                   maxPageLimit={this.props.pagination.maxPageLimit}
                   minPageLimit={this.props.pagination.minPageLimit}
                 />

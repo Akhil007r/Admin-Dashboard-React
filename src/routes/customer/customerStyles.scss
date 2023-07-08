@@ -292,6 +292,10 @@
             color: #fff;
             font-size: 8px;
             padding: 5px;
+            &[disabled=true]{
+                background-color: #19191a;
+                
+            }
         }
     }
     .active{

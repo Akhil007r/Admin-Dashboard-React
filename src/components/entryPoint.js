@@ -5,7 +5,7 @@ export default class EntryPoint extends Component {
     state = {
         username: "",
         password: "",
-        auth: false,
+        auth: true,
         LogError:false,
         DetailErr:{
           login:false,

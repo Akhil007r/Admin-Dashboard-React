@@ -1,15 +1,33 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { pageRequest,pageSuccess,pageFailure } from "../../store/Pagination/paginationAction";
 import CategoryComp from "./category.component";
 
-export default class Category extends Component {
+const mapStateToProps =(state)=>{
+  console.log(state)
+return{
+  contentdata:state.page.contentdata,
+  currentPage:state.page.currentPage,
+  postPerPage:state.page.postPerPage,
+  pagination:state.page.pagination,
+}
+}
+const mapDispatchToProps =(dispatch)=>{
+  console.log(dispatch)
+  return{
+    pageRequest:()=>dispatch(pageRequest()),
+    pageSuccess:(data)=>dispatch(pageSuccess(data)),
+    pageFailure:(error)=>dispatch(pageFailure(error)),
+  }
+}
+
+class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       categoryArr: [],
       cat: "",
-      currentPage: 1,
-      postPerPage: 8,
       Adddata: false,
       handleToast: false,
       editData: false,
@@ -20,23 +38,21 @@ export default class Category extends Component {
       brand: "",
       category: "",
       loading: true,
-      handleErrors:{
-        dataEntry:false,
-        dataFound:true,
-      },
-      pagination:{
+      handleErrors: {
+        dataEntry: false,
+        dataFound: true,
+      },   pagination:{
         pageNumberLimit:5,
         maxPageLimit:5,
         minPageLimit:0,
       },
-      searchItem:"",
+      searchItem: "",
     };
   }
 
-
-shouldComponentUpdate(){
-  return true
-}
+  shouldComponentUpdate() {
+    return true;
+  }
   // setting States
 
   handleChange = (e) => {
@@ -50,9 +66,9 @@ shouldComponentUpdate(){
     e.preventDefault();
     this.setState((prevstate) => ({
       Adddata: !prevstate.Adddata,
-      handleErrors:{
-        dataEntry:false
-      }
+      handleErrors: {
+        dataEntry: false,
+      },
     }));
   };
 
@@ -68,9 +84,9 @@ shouldComponentUpdate(){
     e.preventDefault();
     this.setState((prevstate) => ({
       editData: !prevstate.editData,
-      handleErrors:{
-        dataEntry:false
-      }
+      handleErrors: {
+        dataEntry: false,
+      },
     }));
   };
   // handle Edit
@@ -97,17 +113,21 @@ shouldComponentUpdate(){
   //Handling form Submit
 
   handleSubmit = (e) => {
-    console.log("clicked")
+    console.log("clicked");
     const title = this.state.title;
     const price = this.state.price;
     const stock = this.state.stock;
     const brand = this.state.brand;
     const category = this.state.category;
-    if ( title === "" || price === "" || stock === "" || brand === "" || category === "")
-     {
+    if (
+      title === "" ||
+      price === "" ||
+      stock === "" ||
+      brand === "" ||
+      category === ""
+    ) {
       if (this.state.Adddata === true) {
-        this.setState({handleErrors:{dataEntry:true}})
-
+        this.setState({ handleErrors: { dataEntry: true } });
       }
     } else {
       this.addData();
@@ -173,7 +193,14 @@ shouldComponentUpdate(){
     })
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ title: "", price: "", stock: "", brand: "", category: "", editData: false, Adddata: false,
+          this.setState({
+            title: "",
+            price: "",
+            stock: "",
+            brand: "",
+            category: "",
+            editData: false,
+            Adddata: false,
           });
           this.getData();
         }
@@ -182,7 +209,6 @@ shouldComponentUpdate(){
       .catch((e) => {
         console.log(e.msg);
       });
-
   }
 
   // handle update data
@@ -193,10 +219,15 @@ shouldComponentUpdate(){
     const stock = this.state.stock;
     const brand = this.state.brand;
     const category = this.state.category;
-    if ( Title === "" || Price === "" || stock === "" || brand === "" || category === "")
-     {
+    if (
+      Title === "" ||
+      Price === "" ||
+      stock === "" ||
+      brand === "" ||
+      category === ""
+    ) {
       if (this.state.editData === true) {
-        this.setState({handleErrors:{dataEntry:true}})
+        this.setState({ handleErrors: { dataEntry: true } });
       }
     } else {
       this.UpdateData(id);
@@ -214,12 +245,11 @@ shouldComponentUpdate(){
   };
 
   //  Deleting entry from db
-  handleDelete = (id,currentposts) => {
-    if(currentposts.length === 1 || "1"){
-      this.setState((prev)=>(
-        {
-          currentPage:prev.currentPage - 1
-        }))
+  handleDelete = (id, currentposts) => {
+    if (currentposts.length === 1 || "1") {
+      this.setState((prev) => ({
+        currentPage: prev.currentPage - 1,
+      }));
     }
     fetch("http://localhost:4001/products/" + id, {
       method: "delete",
@@ -234,10 +264,9 @@ shouldComponentUpdate(){
           });
         }, 5000);
         this.getData();
-       
       })
       .catch((e) => {
-        console.log(e.msg); 
+        console.log(e.msg);
       });
   };
 
@@ -251,33 +280,41 @@ shouldComponentUpdate(){
         categoryArr: result,
         loading: false,
       });
-     }
-     if(itemReq===""){
+    }
+    if (itemReq === "") {
       this.setState({
-            categoryArr: this.state.data,
-            loading: false,
-          });
-     }
+        categoryArr: this.state.data,
+        loading: false,
+      });
+    }
   };
 
   handleCategoryChange = (event) => {
-    this.setState({
-      cat: event.target.value,
-    },()=>{
-    this.Funccategory();
-    });
+    this.setState(
+      {
+        cat: event.target.value,
+      },
+      () => {
+        this.Funccategory();
+      }
+    );
     event.preventDefault();
   };
 
   getData() {
+    const {pageRequest,pageSuccess,pageFailure}=this.props;
+    pageRequest();
     fetch("http://localhost:4001/products")
       .then((res) => res.json())
       .then((res) => {
         this.setState({
-          data: res,
-          loading:false
-        });
+          data:res,
+          loading:false,
+        })
+        pageSuccess(res)
         this.Funccategory();
+      }).catch((e)=>{
+        pageFailure(e.message)
       });
   }
 
@@ -295,63 +332,31 @@ shouldComponentUpdate(){
     handleDelete: this.handleDelete.bind(this),
   };
 
-  // paginate
-  handleNextBtn=()=>{
-    this.setState((prev)=>({
-      currentPage: JSON.parse(prev.currentPage) + 1
-    }))
-    console.log(this.state.pagination.pageNumberLimit)
 
-    if(this.state.currentPage + 1 > this.state.pagination.maxPageLimit){
-      this.setState((prev)=>({
-        pagination:{
-          pageNumberLimit:prev.pagination.pageNumberLimit,
-          maxPageLimit: prev.pagination.maxPageLimit + this.state.pagination.pageNumberLimit,
-          minPageLimit: prev.pagination.minPageLimit + this.state.pagination.pageNumberLimit
-        }
-      }))
-    }
-   } 
-
-   handlePrevBtn=()=>{
-    console.log("clicked")
-    if(this.state.currentPage !== 0){
-      this.setState((prev)=>({
-      currentPage: JSON.parse(prev.currentPage) - 1
-    }))}
-    if((this.state.currentPage - 1) % this.state.pagination.pageNumberLimit === 0){
-      console.log("executed")
-      this.setState((prev)=>({
-        pagination:{
-          pageNumberLimit:prev.pagination.pageNumberLimit,
-          maxPageLimit: prev.pagination.maxPageLimit - this.state.pagination.pageNumberLimit,
-          minPageLimit: prev.pagination.minPageLimit - this.state.pagination.pageNumberLimit
-        }
-      }))
-    }
-   } 
 
   componentDidMount() {
     this.getData();
   }
   render() {
-    const lastPostIndex = this.state.currentPage * this.state.postPerPage;
-    const firstPostIndex = lastPostIndex - this.state.postPerPage;
-    const currentposts = this.state.categoryArr.slice(firstPostIndex, lastPostIndex);
+    const lastPostIndex = this.props.currentPage * this.props.postPerPage;
+    const firstPostIndex = lastPostIndex - this.props.postPerPage;
+    const currentposts = this.state.categoryArr.slice(
+      firstPostIndex,
+      lastPostIndex
+    );
     const totalPosts = this.state.categoryArr.length;
     return (
       <>
-        <CategoryComp 
-        {...this.state}
-        {...this.handleFunctions}
-         lastPostIndex={lastPostIndex}
-         firstPostIndex={firstPostIndex}
-         currentposts={currentposts}
-         totalPosts={totalPosts}
-         handlePrevBtn={this.handlePrevBtn}
-         handleNextBtn={this.handleNextBtn}
-          />
+        <CategoryComp
+          {...this.state}
+          {...this.handleFunctions}
+          lastPostIndex={lastPostIndex}
+          firstPostIndex={firstPostIndex}
+          currentposts={currentposts}
+          totalPosts={totalPosts}
+        />
       </>
     );
   }
 }
+export default connect(mapStateToProps,mapDispatchToProps)(Category)
